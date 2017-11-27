@@ -92,7 +92,6 @@ class HashWordsController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**
@@ -117,4 +116,5 @@ class HashWordsController extends Controller
     {
         //
     }
+
 }
