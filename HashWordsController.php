@@ -7,6 +7,7 @@ use App\UserExtraInformation;
 use App\HashTable;
 use App\Vocabulary;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\EncoderController;
 
 class HashWordsController extends Controller
 {
@@ -20,6 +21,7 @@ class HashWordsController extends Controller
         $id = Auth::id();
         $hashwords = HashTable::where('userid', $id)->get();
         $wordCollection = [];
+        $words = [];
         foreach ($hashwords as $word) {
             $wordCollection[$word->wordid][$word->algoritm] = $word->wordhash;
             $words[] = $word->wordid;
@@ -98,4 +100,41 @@ class HashWordsController extends Controller
         //
     }
 
+    public function encode(){
+        if(!isset($_GET) || !isset($_GET['wordid']) || !isset($_GET['algoritm']) || $_GET['wordid'] <= 0 || $_GET['algoritm'] == ''){
+           return 'false';
+        }
+        $userid = Auth::id();
+
+        $hashword = HashTable::where('userid', $userid)->where('wordid', $_GET['wordid'])->where('algoritm', $_GET['algoritm'])->first();
+        if(isset($hashword['id'])){
+            return 'false';
+        }
+        $word = Vocabulary::where('id', $_GET['wordid'])->first();
+        if(!isset($word['word'])){
+            return 'false';
+        }
+        $encoderObject = new EncoderController();
+        $encodeString = '';
+        $_GET['algoritm'] = 'sha256';
+        switch ($_GET['algoritm']) {
+            case 'sha1':
+               $encodeString = $encoderObject->convertToSHA1($word['word']);
+                break;
+            case 'md5':
+               $encodeString = $encoderObject->convertToMD5($word['word']);
+                break;
+            case 'crc32':
+               $encodeString = $encoderObject->convertToCRC32($word['word']);
+                break;
+            case 'sha256':
+               $encodeString = $encoderObject->convertToSHA256($word['word']);
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        return $encodeString;
+    }
 }
