@@ -19,3 +19,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/hashwords', 'HashWordsController@index')->middleware('auth');
+Route::get('gethashword', 'HashWordsController@show')->middleware('auth');
+Route::get('nouserwords', 'HashWordsController@nouserwords')->middleware('auth');

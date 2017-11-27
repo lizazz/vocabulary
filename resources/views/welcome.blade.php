@@ -84,7 +84,7 @@
 
                     <div class="links">
                     @auth
-                        <a href="{{ route('hashwords') }}">Hash Words</a>
+                        <a href="{{ url('/hashwords') }}">Hash Words</a>
                     @else
                         <a href="https://laravel.com/docs">Documentation</a>
                         <a href="https://laracasts.com">Laracasts</a>

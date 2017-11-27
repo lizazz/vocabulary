@@ -17,20 +17,8 @@ class HashWordsController extends Controller
      */
     public function index()
     {
-        $id = Auth::id();
-        $hashwords = HashTable::where('userid', $id)->get();
-        $wordCollection = [];
-        foreach ($hashwords as $word) {
-            $wordCollection[$word->wordid][$word->algoritm] = $word->wordhash;
-            $words[] = $word->wordid;
-        }
-        $words = array_unique($words);
-        $words = Vocabulary::All();
-        $vocabulary = [];
-        foreach ($words as $word) {
-            $vocabulary[$word->id]= $word->word;
-        }
-        return view('words', ['vocabulary' => $vocabulary, 'wordCollection' => $wordCollection]);
+      //  return view('words', ['vocabulary' => $vocabulary, 'wordCollection' => $wordCollection]);
+       return view('words');
     }
 
     /**
@@ -60,9 +48,40 @@ class HashWordsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $id = Auth::id();
+        $hashwords = HashTable::where('userid', $id)->get();
+        $wordCollection = [];
+        foreach ($hashwords as $word) {
+            $wordCollection[$word->wordid][$word->algoritm] = $word->wordhash;
+            $words[] = $word->wordid;
+        }
+        $words = array_unique($words);
+        $words = Vocabulary::All();
+        $vocabulary = [];
+        foreach ($words as $word) {
+            $vocabulary[$word->id]= $word->word;
+        }
+
+        return ['vocabulary' => $vocabulary, 'wordCollection' => $wordCollection];
+    }
+
+    public function nouserwords(){
+        $id = Auth::id();
+        $hashwords = HashTable::where('userid', $id)->get();
+        $wordCollection = [];
+        foreach ($hashwords as $word) {
+            $wordCollection[] = $word->wordid;
+        }
+        $wordCollection = array_unique($wordCollection);
+     //   print_r($wordCollection);
+        $words = Vocabulary::whereNotIn('id',$wordCollection)->get();
+        $vocabulary = [];
+        foreach ($words as $word) {
+            $vocabulary[$word->id]= $word->word;
+        }
+        return $vocabulary;
     }
 
     /**
