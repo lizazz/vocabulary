@@ -21,4 +21,8 @@ class EncoderController extends Controller
     public function convertToSHA256($word){
     	return hash('sha256', $word);
     }
+
+    public function convertToBase64($word){
+        return base64_encode($word);
+    }
 }

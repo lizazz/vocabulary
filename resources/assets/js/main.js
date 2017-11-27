@@ -6,12 +6,23 @@ const app3 = new Vue({
       data: {
       	message:'',
       	vocabulary:[],
-      	wordCollection:[]
+      	wordCollection:[],
+      	selected: ''
       },
       methods:{
       	convert: function(wordid, algoritm){
-      		console.log(wordid + ' ' + algoritm);
-      	}
+			axios({
+			  method: 'get',
+			  url: '/encode?wordid=' + wordid + '&algoritm=' + algoritm,
+			  data: {
+			    wordid: wordid,
+			    algoritm: algoritm
+			  }
+			})
+		    .then(function (response) {
+		      console.log(response['data']);
+		    })
+		}
       }
       
 });
@@ -21,10 +32,13 @@ var addrow = new Vue({
 	  mounted() {
     	axios.get('/nouserwords').then(response => this.wordCollection = response.data);
     },
+    data:{
+    	wordid:0
+    },
 	methods:{
       	addRow: function(event){
       		if(event){
-      			var select = "<select>";
+      			var select = '<select class="newword">';
       			select += '<option value="0" disabled selected>Select word</option>';
       			for(var i in this.wordCollection){
       				select += '<option value = "' + i + '">' + this.wordCollection[i] + '</option>';
@@ -41,11 +55,11 @@ var addrow = new Vue({
       			var td5 = document.createElement('td');
       			var td6 = document.createElement('td');
       			var td7 = document.createElement('td');
-      			td2.innerHTML = '<button>Convert to MD5</button>';
-      			td3.innerHTML = '<button>Convert to sha1</button>';
-      			td4.innerHTML = '<button>Convert to crc32</button>';
-      			td5.innerHTML = '<button>Convert to SHA256</button>';
-      			td6.innerHTML = '<button>Convert to base64</button>';
+      			td2.innerHTML = '<button onclick="convertNewLine(this,\'md5\')">Convert to MD5</button>';
+      			td3.innerHTML = '<button onclick="convertNewLine(this,\'sha1\')">Convert to sha1</button>';
+      			td4.innerHTML = '<button onclick="convertNewLine(this,\'crc32\')">Convert to crc32</button>';
+      			td5.innerHTML = '<button onclick="convertNewLine(this,\'sha256\')">Convert to SHA256</button>';
+      			td6.innerHTML = '<button onclick="convertNewLine(this,\'base64\')">Convert to base64</button>';
       			td7.innerHTML = '<button>Delete hash for a word</button>';
       			tr.appendChild(td);
       			tr.appendChild(td2);
@@ -64,3 +78,40 @@ var addrow = new Vue({
       }
 
 });
+
+/*new Vue({
+  el: '#sel1',
+  data: {
+    selected: ''
+  }
+})*/
+
+/*var app5 = new Vue({
+	el: '#app5',
+	data: {
+		'message' : 'hello'
+	},
+	methods: {
+
+	}
+});*/
+
+function convertNewLine(buttonObject, algoritm){
+	var tr = buttonObject.parentElement.parentElement;
+	var select = tr.getElementsByTagName('select');
+	var wordid = select[0].value;
+	/*if(wordid > 0){
+		axios({
+	  method: 'get',
+	  url: '/encode?wordid=' + wordid + '&algoritm=' + algoritm,
+	  data: {
+	    wordid: wordid,
+	    algoritm: algoritm
+	  }
+	})
+	.then(function (response) {
+	  console.log(response['data']);
+	})	
+	}*/
+	/**/
+}

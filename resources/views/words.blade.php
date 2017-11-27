@@ -36,7 +36,7 @@
                                 <div>@{{wordhash['crc32']}}</div>
                         </td>
                         <td v-if="wordhash['SHA256'] == undefined">
-                            <button v-on:click="convert(wordid,'SHA256')">Convert to SHA256</button>
+                            <button v-on:click="convert(wordid,'sha256')">Convert to SHA256</button>
                         </td>
                         <td v-else>
                                 <div>@{{wordhash['SHA256']}}</div>
@@ -59,6 +59,15 @@
 <div id="app2">
 <example></example>
 </div>
+<!--<div id="sel1">
+    <select v-model="selected">
+      <option disabled value="">Выберите один из вариантов</option>
+      <option>A</option>
+      <option>B</option>
+      <option>C</option>
+    </select>
+    <span>Выбрано: @{{ selected }}</span>
+</div> -->
 <script type="text/javascript" src="/resources/assets/js/main.js">
 </script>
 @endsection
