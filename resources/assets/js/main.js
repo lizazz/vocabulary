@@ -10,21 +10,34 @@ const app3 = new Vue({
       	selected: ''
       },
       methods:{
+         showhash: function(wordid,algoritm){
+          if(this.wordCollection[wordid][algoritm] == undefined){
+            var content = '<button v-on:click="convert(' + wordid + ',\'' + algoritm + '\')">Convert to ' + algoritm + '</button>'
+          }else{
+            var content = this.wordCollection[wordid][algoritm];
+          }
+          return content;
+        },
       	convert: function(wordid, algoritm){
-			axios({
-			  method: 'get',
-			  url: '/encode?wordid=' + wordid + '&algoritm=' + algoritm,
-			  data: {
-			    wordid: wordid,
-			    algoritm: algoritm
-			  }
-			})
-		    .then(function (response) {
-		      console.log(response['data']);
-		    })
-		}
+           var vm = this;
+    		    axios({
+    			  method: 'get',
+    			  url: '/encode?wordid=' + wordid + '&algoritm=' + algoritm,
+    			  data: {
+    			    wordid: wordid,
+    			    algoritm: algoritm,
+    			  }
+    			})
+    		    .then(function (response) {
+              if(response['data'] != false){
+                console.log('before = ' + vm.wordCollection[response['data']['wordid']][response['data']['algoritm']]);
+                vm.wordCollection[response['data']['wordid']][response['data']['algoritm']] = response['data']['wordhash'];
+              }
+
+    		    })
+
+    		}
       }
-      
 });
 
 var addrow = new Vue({

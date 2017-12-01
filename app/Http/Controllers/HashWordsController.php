@@ -59,6 +59,23 @@ class HashWordsController extends Controller
             $wordCollection[$word->wordid][$word->algoritm] = $word->wordhash;
             $words[] = $word->wordid;
         }
+        foreach ($wordCollection as $wordid => $collection) {
+            if(!isset($wordCollection[$wordid]['md5'])){
+                $wordCollection[$wordid]['md5'] = '';
+            }
+            if(!isset($wordCollection[$wordid]['sha1'])){
+                $wordCollection[$wordid]['sha1'] = '';
+            }
+            if(!isset($wordCollection[$wordid]['crc32'])){
+                $wordCollection[$wordid]['crc32'] = '';
+            }
+            if(!isset($wordCollection[$wordid]['sha256'])){
+                $wordCollection[$wordid]['sha256'] = '';
+            }
+            if(!isset($wordCollection[$wordid]['base64'])){
+                $wordCollection[$wordid]['base64'] = '';
+            }
+        }
         $words = array_unique($words);
         $words = Vocabulary::All();
         $vocabulary = [];
@@ -157,8 +174,10 @@ class HashWordsController extends Controller
         }
 
         if($encodeString != ''){
-            HashTable::create(['userid' => $userid, 'wordid' => $_GET['wordid'], 'algoritm' => $_GET['algoritm'], 'wordhash' => $encodeString]);
+            $newRow = ['userid' => $userid, 'wordid' => $_GET['wordid'], 'algoritm' => $_GET['algoritm'], 'wordhash' => $encodeString];
+            HashTable::create($newRow);
+            return $newRow;
         }
-        return $encodeString;
+        return 'false';
     }
 }
