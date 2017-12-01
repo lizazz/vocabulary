@@ -156,6 +156,9 @@ class HashWordsController extends Controller
                 break;
         }
 
+        if($encodeString != ''){
+            HashTable::create(['userid' => $userid, 'wordid' => $_GET['wordid'], 'algoritm' => $_GET['algoritm'], 'wordhash' => $encodeString]);
+        }
         return $encodeString;
     }
 }
