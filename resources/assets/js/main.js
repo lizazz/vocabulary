@@ -113,18 +113,19 @@ function convertNewLine(buttonObject, algoritm){
 	var tr = buttonObject.parentElement.parentElement;
 	var select = tr.getElementsByTagName('select');
 	var wordid = select[0].value;
-	/*if(wordid > 0){
+  console.log(select[0]);
+	if(wordid > 0){
+    console.log('do');
 		axios({
 	  method: 'get',
-	  url: '/encode?wordid=' + wordid + '&algoritm=' + algoritm,
-	  data: {
-	    wordid: wordid,
-	    algoritm: algoritm
-	  }
-	})
-	.then(function (response) {
-	  console.log(response['data']);
-	})	
-	}*/
-	/**/
+  	  url: '/encode?wordid=' + wordid + '&algoritm=' + algoritm,
+  	  data: {
+  	    wordid: wordid,
+  	    algoritm: algoritm
+  	  }
+  	})
+  	.then(function (response) {
+  	  console.log(response['data']);
+  	})	
+	}
 }
