@@ -48,7 +48,7 @@
                         </td>
                         </td>
                         <td data-algoritm="delete">
-                           <button>Delete hash for a word</button>
+                           <button v-on:click="deleteHash(wordid)">Delete hash for a word</button>
                         </td>
                     </tr>
              </table>
@@ -56,18 +56,6 @@
                 <button v-on:click="addRow('Add word')">Add word</button>
             </div>
         </div>  
-<div id="app2">
-<example></example>
-</div>
-<!--<div id="sel1">
-    <select v-model="selected">
-      <option disabled value="">Выберите один из вариантов</option>
-      <option>A</option>
-      <option>B</option>
-      <option>C</option>
-    </select>
-    <span>Выбрано: @{{ selected }}</span>
-</div> -->
 <script type="text/javascript" src="/resources/assets/js/main.js">
 </script>
 @endsection

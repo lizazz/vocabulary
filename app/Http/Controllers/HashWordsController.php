@@ -18,32 +18,10 @@ class HashWordsController extends Controller
      */
     public function index()
     {
-      //  return view('words', ['vocabulary' => $vocabulary, 'wordCollection' => $wordCollection]);
        return view('words');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
+     /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -51,8 +29,8 @@ class HashWordsController extends Controller
      */
     public function show()
     {
-        $id = Auth::id();
-        $hashwords = HashTable::where('userid', $id)->get();
+        $userid = Auth::id();
+        $hashwords = HashTable::where('userid', $userid)->get();
         $wordCollection = [];
         $words = [];
         foreach ($hashwords as $word) {
@@ -87,8 +65,8 @@ class HashWordsController extends Controller
     }
 
     public function nouserwords(){
-        $id = Auth::id();
-        $hashwords = HashTable::where('userid', $id)->get();
+        $userid = Auth::id();
+        $hashwords = HashTable::where('userid', $userid)->get();
         $wordCollection = [];
         foreach ($hashwords as $word) {
             $wordCollection[] = $word->wordid;
@@ -103,40 +81,7 @@ class HashWordsController extends Controller
         return $vocabulary;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-     public function encode(){
+    public function encode(){
         if(!isset($_GET) || !isset($_GET['wordid']) || !isset($_GET['algoritm']) || $_GET['wordid'] <= 0 || $_GET['algoritm'] == ''){
            return 'false';
         }
@@ -179,5 +124,14 @@ class HashWordsController extends Controller
             return $newRow;
         }
         return 'false';
+    }
+
+    public function deleteHash(){
+        if(!isset($_GET) || !isset($_GET['wordid']) || $_GET['wordid'] <= 0){
+           return 'false';
+        }
+        $userid = Auth::id();
+        $hashword = HashTable::where('userid', $userid)->where('wordid', $_GET['wordid'])->delete();
+        return 'true';
     }
 }
