@@ -60,7 +60,7 @@ if (!Array.prototype.forEach) {
   };
 }
 
-var algoritms = ['md5', 'sha1', 'crs32', 'sha256', 'base64'];
+var algoritms = ['md5', 'sha1', 'crc32', 'sha256', 'base64'];
 const app3 = new Vue({
     el: '#app3',
     mounted() {
@@ -127,8 +127,13 @@ const app3 = new Vue({
             var tr = document.createElement('tr');
             var tds = '<td><select class="newword">';
             tds += '<option value="0" disabled selected>Select word</option>';
+           
             for(var i in this.vocabulary){
-              tds += '<option value = "' + i + '">' + this.vocabulary[i] + '</option>';
+            	var disabled = '';
+            	if(this.wordCollection[i] != undefined){
+            		disabled = 'disabled';
+            	}
+              tds += '<option value = "' + i + '" ' + disabled + ' >' + this.vocabulary[i] + '</option>';
             }
             tds += '</select>';
             tds += '</td>';
@@ -139,94 +144,12 @@ const app3 = new Vue({
             tds += '<td><button onclick="deleteNewLine(this)">Delete hash for a word</button></td>';
             tr.innerHTML = tds;
             table.appendChild(tr);
-          /*  var select = '<select class="newword">';
-            select += '<option value="0" disabled selected>Select word</option>';
-            for(var i in this.wordCollection){
-              select += '<option value = "' + i + '">' + this.wordCollection[i] + '</option>';
-            }
-            select += '</select>';  
-            
-            var tr = document.createElement('tr');
-            var td = document.createElement('td');
-            td.innerHTML = select;
-            tr.appendChild(td);
-            var td2 = document.createElement('td');
-            var td3 = document.createElement('td');
-            var td4 = document.createElement('td');
-            var td5 = document.createElement('td');
-            var td6 = document.createElement('td');
-            var td7 = document.createElement('td');
-            td2.innerHTML = '<button onclick="convertNewLine(this,\'md5\')">Convert to MD5</button>';
-            td3.innerHTML = '<button onclick="convertNewLine(this,\'sha1\')">Convert to sha1</button>';
-            td4.innerHTML = '<button onclick="convertNewLine(this,\'crc32\')">Convert to crc32</button>';
-            td5.innerHTML = '<button onclick="convertNewLine(this,\'sha256\')">Convert to SHA256</button>';
-            td6.innerHTML = '<button onclick="convertNewLine(this,\'base64\')">Convert to base64</button>';
-            td7.innerHTML = '<button onclick="deleteNewLine(this)">Delete hash for a word</button>';
-            tr.appendChild(td);
-            tr.appendChild(td2);
-            tr.appendChild(td3);
-            tr.appendChild(td4);
-            tr.appendChild(td5);
-            tr.appendChild(td6);
-            tr.appendChild(td7);
-            table.appendChild(tr);*/
           }
           
         }
       }
 });
-/*var addrow = new Vue({
-	el:'#addrow',
-	  mounted() {
-    	axios.get('/nouserwords').then(response => this.wordCollection = response.data);
-    },
-    data:{
-    	wordid:0
-    },
-	methods:{
-      	addRow: function(event){
-      		if(event){
-      			var select = '<select class="newword">';
-      			select += '<option value="0" disabled selected>Select word</option>';
-      			for(var i in this.wordCollection){
-      				select += '<option value = "' + i + '">' + this.wordCollection[i] + '</option>';
-      			}
-      			select += '</select>';	
-      			var table = document.getElementById('app3');
-      			var tr = document.createElement('tr');
-      			var td = document.createElement('td');
-      			td.innerHTML = select;
-      			tr.appendChild(td);
-      			var td2 = document.createElement('td');
-      			var td3 = document.createElement('td');
-      			var td4 = document.createElement('td');
-      			var td5 = document.createElement('td');
-      			var td6 = document.createElement('td');
-      			var td7 = document.createElement('td');
-      			td2.innerHTML = '<button onclick="convertNewLine(this,\'md5\')">Convert to MD5</button>';
-      			td3.innerHTML = '<button onclick="convertNewLine(this,\'sha1\')">Convert to sha1</button>';
-      			td4.innerHTML = '<button onclick="convertNewLine(this,\'crc32\')">Convert to crc32</button>';
-      			td5.innerHTML = '<button onclick="convertNewLine(this,\'sha256\')">Convert to SHA256</button>';
-      			td6.innerHTML = '<button onclick="convertNewLine(this,\'base64\')">Convert to base64</button>';
-      			td7.innerHTML = '<button onclick="deleteNewLine(this)">Delete hash for a word</button>';
-      			tr.appendChild(td);
-      			tr.appendChild(td2);
-      			tr.appendChild(td3);
-      			tr.appendChild(td4);
-      			tr.appendChild(td5);
-      			tr.appendChild(td6);
-      			tr.appendChild(td7);
-      			table.appendChild(tr);
-      		}
-      		
-      	}
-      },
-     data: {
-      	wordCollection:[]
-      }
 
-});
-*/
 
 function convertNewLine(buttonObject, algoritm){
 	var tr = buttonObject.parentElement.parentElement;
@@ -234,27 +157,26 @@ function convertNewLine(buttonObject, algoritm){
 	var wordid = select[0].value;
 	if(wordid > 0){
 		axios({
-	  method: 'get',
-  	  url: '/encode?wordid=' + wordid + '&algoritm=' + algoritm,
-  	  data: {
-  	    wordid: wordid,
-  	    algoritm: algoritm
-  	  }
-  	})
-  	.then(function (response) {
-      var td = buttonObject.parentElement.innerHTML = response['data']['wordhash'];
-     // console.log(buttonObject);
-  	})	
+		  method: 'get',
+	  	  url: '/encode?wordid=' + wordid + '&algoritm=' + algoritm,
+	  	  data: {
+	  	    wordid: wordid,
+	  	    algoritm: algoritm
+	  	  }
+	  	})
+	  	.then(function (response) {
+	      var td = buttonObject.parentElement.innerHTML = response['data']['wordhash'];
+	      select[0].disabled = true;
+	  	});
 	}else{
-    alert('Select word, please');
-  }
+		alert('Select word, please');
+	}
 }
 
 function deleteNewLine(buttonObject){
   var tr = buttonObject.parentElement.parentElement;
   var select = tr.getElementsByTagName('select');
   var wordid = select[0].value;
-  console.log(wordid);
   if(wordid > 0){
     var decision = confirm('Are you sure? All hashes for this word will be deleted');
     if(decision){

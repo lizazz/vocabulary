@@ -23,3 +23,4 @@ Route::get('gethashword', 'HashWordsController@show')->middleware('auth');
 Route::get('nouserwords', 'HashWordsController@nouserwords')->middleware('auth');
 Route::get('encode', 'HashWordsController@encode')->middleware('auth');
 Route::get('deletehash', 'HashWordsController@deleteHash')->middleware('auth');
+Route::get('editword', 'WordsController@index')->middleware('auth');

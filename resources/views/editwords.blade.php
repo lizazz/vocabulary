@@ -3,11 +3,11 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 @section('content')
         <div>
-            <a href="{{ url('/editword') }}">
-                Edit words
+            <a href="{{ url('/hashwords') }}">
+                Hash Words
             </a>
         </div>
-        <div id="app3">
+        <div id="app4">
             <div id='addrow'>
                 <button v-on:click="addRow('Add word')">Add word</button>
             </div>

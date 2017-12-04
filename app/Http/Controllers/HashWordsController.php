@@ -89,7 +89,9 @@ class HashWordsController extends Controller
 
         $hashword = HashTable::where('userid', $userid)->where('wordid', $_GET['wordid'])->where('algoritm', $_GET['algoritm'])->first();
         if(isset($hashword['id'])){
-            return 'false';
+            //return 'false';
+            $newRow = ['userid' => $userid, 'wordid' => $_GET['wordid'], 'algoritm' => $_GET['algoritm'], 'wordhash' => $hashword['wordhash']];
+            return $newRow;
         }
         $word = Vocabulary::where('id', $_GET['wordid'])->first();
         if(!isset($word['word'])){
