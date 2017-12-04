@@ -2,8 +2,11 @@
 <script src="https://unpkg.com/vue"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 @section('content')
-        <div>
-            <table border="1px" id="app3">
+        <div id="app3">
+            <div id='addrow'>
+                <button v-on:click="addRow('Add word')">Add word</button>
+            </div>
+            <table border="1px" id="maintable">
                 <thead>
                     <tr>
                         <td>word</td>
@@ -20,7 +23,7 @@
                        <td v-if="wordhash['md5'].length == 0">
                             <button v-on:click="convert(wordid,'md5')">Convert to MD5</button>
                         </td>
-                            <td v-else>
+                        <td v-else>
                                 <div>@{{wordhash['md5']}}</div>
                         <td v-if="wordhash['sha1'].length == 0">
                             <button v-on:click="convert(wordid,'sha1')">Convert to sha1</button>
@@ -52,10 +55,11 @@
                         </td>
                     </tr>
              </table>
-            <div id='addrow'>
-                <button v-on:click="addRow('Add word')">Add word</button>
-            </div>
-        </div>  
+        </div>
+          <template id="my-component">
+            <div>hey</div>
+        </template>
+
 <script type="text/javascript" src="/resources/assets/js/main.js">
 </script>
 @endsection

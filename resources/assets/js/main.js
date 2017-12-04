@@ -1,6 +1,8 @@
 // Шаги алгоритма ECMA-262, 5-е издание, 15.4.4.18
 // Ссылка (en): http://es5.github.io/#x15.4.4.18
 // Ссылка (ru): http://es5.javascript.ru/x15.4.html#x15.4.4.18
+//window.Vue = require('vue');
+
 if (!Array.prototype.forEach) {
 
   Array.prototype.forEach = function (callback, thisArg) {
@@ -111,19 +113,69 @@ const app3 = new Vue({
                   wordid: wordid,
                 }
               })
-                algoritms.forEach(function callback(currentValue, index, array) {
+              algoritms.forEach(function callback(currentValue, index, array) {
                 vm.wordCollection[wordid][currentValue] = '';
-            });
+              });
             }
           }else{
             alert('Select word, please');
           }
         },
-        
+        addRow: function(event){
+          if(event){
+            var table = document.getElementById('maintable');
+            var tr = document.createElement('tr');
+            var tds = '<td><select class="newword">';
+            tds += '<option value="0" disabled selected>Select word</option>';
+            for(var i in this.vocabulary){
+              tds += '<option value = "' + i + '">' + this.vocabulary[i] + '</option>';
+            }
+            tds += '</select>';
+            tds += '</td>';
+            algoritms.forEach(function callback(currentValue, index, array) {
+                //vm.wordCollection[wordid][currentValue] = '';
+                tds += '<td><button onclick="convertNewLine(this,\'' + currentValue + '\')">Convert to ' + currentValue + '</button></td>';
+            });
+            tds += '<td><button onclick="deleteNewLine(this)">Delete hash for a word</button></td>';
+            tr.innerHTML = tds;
+            table.appendChild(tr);
+          /*  var select = '<select class="newword">';
+            select += '<option value="0" disabled selected>Select word</option>';
+            for(var i in this.wordCollection){
+              select += '<option value = "' + i + '">' + this.wordCollection[i] + '</option>';
+            }
+            select += '</select>';  
+            
+            var tr = document.createElement('tr');
+            var td = document.createElement('td');
+            td.innerHTML = select;
+            tr.appendChild(td);
+            var td2 = document.createElement('td');
+            var td3 = document.createElement('td');
+            var td4 = document.createElement('td');
+            var td5 = document.createElement('td');
+            var td6 = document.createElement('td');
+            var td7 = document.createElement('td');
+            td2.innerHTML = '<button onclick="convertNewLine(this,\'md5\')">Convert to MD5</button>';
+            td3.innerHTML = '<button onclick="convertNewLine(this,\'sha1\')">Convert to sha1</button>';
+            td4.innerHTML = '<button onclick="convertNewLine(this,\'crc32\')">Convert to crc32</button>';
+            td5.innerHTML = '<button onclick="convertNewLine(this,\'sha256\')">Convert to SHA256</button>';
+            td6.innerHTML = '<button onclick="convertNewLine(this,\'base64\')">Convert to base64</button>';
+            td7.innerHTML = '<button onclick="deleteNewLine(this)">Delete hash for a word</button>';
+            tr.appendChild(td);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            tr.appendChild(td5);
+            tr.appendChild(td6);
+            tr.appendChild(td7);
+            table.appendChild(tr);*/
+          }
+          
+        }
       }
 });
-
-var addrow = new Vue({
+/*var addrow = new Vue({
 	el:'#addrow',
 	  mounted() {
     	axios.get('/nouserwords').then(response => this.wordCollection = response.data);
@@ -174,7 +226,7 @@ var addrow = new Vue({
       }
 
 });
-
+*/
 
 function convertNewLine(buttonObject, algoritm){
 	var tr = buttonObject.parentElement.parentElement;
