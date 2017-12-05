@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+use Illuminate\Http\Request;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -27,3 +27,9 @@ Route::get('editword', 'WordsController@index')->middleware('auth');
 Route::get('getwords', 'WordsController@show')->middleware('auth');
 Route::get('saveword', 'WordsController@create')->middleware('auth');
 Route::get('deleteword', 'WordsController@destroy')->middleware('auth');
+//Route::post('hashjson', 'HashWordsController@hashjson');
+Route::post('hashjson', function()
+{
+	return $request();
+});
+Route::get('test', 'HashWordsController@test');

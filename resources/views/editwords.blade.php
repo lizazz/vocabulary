@@ -9,6 +9,7 @@
             </a>
         </div>
         <br>
+        {{ csrf_field() }}
         <div id="app4">
             <div id='addrow'>
                 <button v-on:click="addInputRow()">New word</button>
