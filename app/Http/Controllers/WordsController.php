@@ -25,7 +25,12 @@ class WordsController extends Controller
      */
     public function create()
     {
-        //
+        if(!isset($_GET) || !isset($_GET['word']) || $_GET['word'] == ''){
+           return 'false';
+        }
+        $newWord = ['word' => $_GET['word']];
+        $wordObject =Vocabulary::create($newWord);
+        return $wordObject;
     }
 
     /**
@@ -45,9 +50,15 @@ class WordsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $words = Vocabulary::All();
+        $vocabulary = [];
+        foreach ($words as $word) {
+            $vocabulary[$word->id]= $word->word;
+        }
+
+        return ['vocabulary' => $vocabulary];
     }
 
     /**
@@ -79,8 +90,13 @@ class WordsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        if(!isset($_GET) || !isset($_GET['wordid']) || $_GET['wordid'] <= 0){
+           return 'false';
+        }
+        $userid = Auth::id();
+        $hashword = Vocabulary::where('id', $_GET['wordid'])->delete();
+        return 'true';
     }
 }

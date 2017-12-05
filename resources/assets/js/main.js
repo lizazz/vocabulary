@@ -69,8 +69,7 @@ const app3 = new Vue({
       data: {
       	message:'',
       	vocabulary:[],
-      	wordCollection:[],
-      	selected: ''
+      	wordCollection:[]
       },
       methods:{
          showhash: function(wordid,algoritm){
@@ -127,7 +126,6 @@ const app3 = new Vue({
             var tr = document.createElement('tr');
             var tds = '<td><select class="newword">';
             tds += '<option value="0" disabled selected>Select word</option>';
-           
             for(var i in this.vocabulary){
             	var disabled = '';
             	if(this.wordCollection[i] != undefined){
@@ -145,7 +143,6 @@ const app3 = new Vue({
             tr.innerHTML = tds;
             table.appendChild(tr);
           }
-          
         }
       }
 });
@@ -183,6 +180,89 @@ function deleteNewLine(buttonObject){
       axios({
       method: 'get',
         url: '/deletehash?wordid=' + wordid,
+        data: {
+          wordid: wordid
+        }
+      });
+      tr.remove();
+    }
+  }else{
+    alert('Select word, please');
+  }
+}
+
+// Edit word section
+const app4 = new Vue({
+    el: '#app4',
+    mounted() {
+      axios.get('/getwords').then(response => [this.message = response.data, this.vocabulary = response.data['vocabulary']]);
+    },
+      data: {
+        message:'',
+        vocabulary:[]
+      },
+      methods:{
+        deleteword: function(wordid){
+          if(wordid > 0){
+            var decision = confirm('Are you sure? The word and all hashes for this word will be deleted');
+            if(decision){
+              var vm = this;
+              axios({
+                method: 'get',
+                url: '/deleteword?wordid=' + wordid,
+                data: {
+                  wordid: wordid,
+                }
+              })
+              vm.vocabulary[wordid] = null;
+            /*  algoritms.forEach(function callback(currentValue, index, array) {
+                vm.wordCollection[wordid][currentValue] = '';
+              });*/
+            }
+          }else{
+            alert('Select word, please');
+          }
+        },
+        addInputRow: function(){
+            var table = document.getElementById('maintable');
+            var tr = document.createElement('tr');
+            var tds = '<td>';
+            tds += '<input type="text" name="newword" placeholder="new word">';
+            tds += '</td>';
+            tds += '<td><button onclick="addNewword(this)">Save word</button></td>';
+            tr.innerHTML = tds;
+            table.appendChild(tr);
+        }
+      }
+});
+
+function addNewword(buttonObject) {
+  var tr = buttonObject.parentElement.parentElement;
+  var input = tr.getElementsByTagName('input');
+  var word = input[0].value;
+  if(word.length > 0){
+      axios({
+        method: 'get',
+        url: '/saveword?word=' + word,
+        data: {
+          wordid: word
+        }
+      })
+      .then(function (response) {
+        var td = buttonObject.parentElement.innerHTML = '<button onclick="deleteNewWord(this, ' + response['data']['id'] + ')">Delete a word</button>';
+        input[0].disabled = true;
+      });
+  }
+}
+
+function deleteNewWord(buttonObject, wordid){
+  var tr = buttonObject.parentElement.parentElement;
+  if(wordid > 0){
+    var decision = confirm('Are you sure?');
+    if(decision){
+      axios({
+      method: 'get',
+        url: '/deleteword?wordid=' + wordid,
         data: {
           wordid: wordid
         }

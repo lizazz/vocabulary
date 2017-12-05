@@ -2,14 +2,16 @@
 <script src="https://unpkg.com/vue"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 @section('content')
+<div id="app4" display="none"></div>
         <div>
             <a href="{{ url('/editword') }}">
                 Edit words
             </a>
         </div>
+        <br/>
         <div id="app3">
             <div id='addrow'>
-                <button v-on:click="addRow('Add word')">Add word</button>
+                <button v-on:click="addRow('Add word')">Add word for hashing</button>
             </div>
             <table border="1px" id="maintable">
                 <thead>
@@ -54,16 +56,12 @@
                         <td v-else>
                                 <div>@{{wordhash['base64']}}</div>
                         </td>
-                        </td>
                         <td data-algoritm="delete">
                            <button v-on:click="deleteHash(wordid)">Delete hash for a word</button>
                         </td>
                     </tr>
              </table>
         </div>
-          <template id="my-component">
-            <div>hey</div>
-        </template>
 
 <script type="text/javascript" src="/resources/assets/js/main.js">
 </script>
