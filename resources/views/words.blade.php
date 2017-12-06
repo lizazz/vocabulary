@@ -1,6 +1,5 @@
 @extends('layouts.app')
-<script src="https://unpkg.com/vue"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!--<script src="https://unpkg.com/vue"></script>-->
 @section('content')
 <div id="app4" display="none"></div>
         <div>
@@ -62,7 +61,6 @@
                     </tr>
              </table>
         </div>
-
-<script type="text/javascript" src="/resources/assets/js/main.js">
-</script>
+<!--<script type="text/javascript" src="/resources/assets/js/main.js">
+</script> -->
 @endsection

@@ -10,9 +10,12 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    
+    <!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <script type="text/javascript" src="/resources/assets/js/main1.js"></script>
+    <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="public/css/app.css">
 </head>
 <body>
     <div id="app">
@@ -76,7 +79,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="js/app.js"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="public/js/app.js"></script>
 </body>
 </html>

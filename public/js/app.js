@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,7 +71,7 @@
 
 
 var bind = __webpack_require__(3);
-var isBuffer = __webpack_require__(18);
+var isBuffer = __webpack_require__(19);
 
 /*global toString:true*/
 
@@ -408,7 +408,7 @@ module.exports = g;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(20);
+var normalizeHeaderName = __webpack_require__(21);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -716,12 +716,12 @@ process.umask = function() { return 0; };
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(21);
-var buildURL = __webpack_require__(23);
-var parseHeaders = __webpack_require__(24);
-var isURLSameOrigin = __webpack_require__(25);
+var settle = __webpack_require__(22);
+var buildURL = __webpack_require__(24);
+var parseHeaders = __webpack_require__(25);
+var isURLSameOrigin = __webpack_require__(26);
 var createError = __webpack_require__(6);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(26);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(27);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -818,7 +818,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(27);
+      var cookies = __webpack_require__(28);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -902,7 +902,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(22);
+var enhanceError = __webpack_require__(23);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -959,15 +959,16 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 9 */
+/* 9 */,
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(10);
-module.exports = __webpack_require__(39);
+__webpack_require__(11);
+module.exports = __webpack_require__(44);
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -977,28 +978,315 @@ module.exports = __webpack_require__(39);
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(11);
+__webpack_require__(12);
 
-window.Vue = __webpack_require__(35);
+window.Vue = __webpack_require__(36);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+/*
+Vue.component('ExampleComponent', require('./components/ExampleComponent.vue'));
+*/
 
-Vue.component('ExampleComponent', __webpack_require__(38));
+/*const app = new Vue({
+    el: '#app'
+});*/
 
-var app = new Vue({
-  el: '#app'
+// Шаги алгоритма ECMA-262, 5-е издание, 15.4.4.18
+// Ссылка (en): http://es5.github.io/#x15.4.4.18
+// Ссылка (ru): http://es5.javascript.ru/x15.4.html#x15.4.4.18
+//window.Vue = require('vue');
+
+if (!Array.prototype.forEach) {
+
+  Array.prototype.forEach = function (callback, thisArg) {
+
+    var T, k;
+
+    if (this == null) {
+      throw new TypeError(' this is null or not defined');
+    }
+
+    // 1. Положим O равным результату вызова ToObject passing the |this| value as the argument.
+    var O = Object(this);
+
+    // 2. Положим lenValue равным результату вызова внутреннего метода Get объекта O с аргументом "length".
+    // 3. Положим len равным ToUint32(lenValue).
+    var len = O.length >>> 0;
+
+    // 4. Если IsCallable(callback) равен false, выкинем исключение TypeError.
+    // Смотрите: http://es5.github.com/#x9.11
+    if (typeof callback !== 'function') {
+      throw new TypeError(callback + ' is not a function');
+    }
+
+    // 5. Если thisArg присутствует, положим T равным thisArg; иначе положим T равным undefined.
+    if (arguments.length > 1) {
+      T = thisArg;
+    }
+
+    // 6. Положим k равным 0
+    k = 0;
+
+    // 7. Пока k < len, будем повторять
+    while (k < len) {
+
+      var kValue;
+
+      // a. Положим Pk равным ToString(k).
+      //   Это неявное преобразование для левостороннего операнда в операторе in
+      // b. Положим kPresent равным результату вызова внутреннего метода HasProperty объекта O с аргументом Pk.
+      //   Этот шаг может быть объединён с шагом c
+      // c. Если kPresent равен true, то
+      if (k in O) {
+
+        // i. Положим kValue равным результату вызова внутреннего метода Get объекта O с аргументом Pk.
+        kValue = O[k];
+
+        // ii. Вызовем внутренний метод Call функции callback с объектом T в качестве значения this и
+        // списком аргументов, содержащим kValue, k и O.
+        callback.call(T, kValue, k, O);
+      }
+      // d. Увеличим k на 1.
+      k++;
+    }
+    // 8. Вернём undefined.
+  };
+}
+
+var algoritms = ['md5', 'sha1', 'crc32', 'sha256', 'base64'];
+var app3 = new Vue({
+  el: '#app3',
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/gethashword').then(function (response) {
+      return [_this.message = response.data, _this.vocabulary = response.data['vocabulary'], _this.wordCollection = response.data['wordCollection']];
+    });
+  },
+
+  data: {
+    message: '',
+    vocabulary: [],
+    wordCollection: []
+  },
+  methods: {
+    showhash: function showhash(wordid, algoritm) {
+      if (this.wordCollection[wordid][algoritm] == undefined) {
+        var content = '<button v-on:click="convert(' + wordid + ',\'' + algoritm + '\')">Convert to ' + algoritm + '</button>';
+      } else {
+        var content = this.wordCollection[wordid][algoritm];
+      }
+      return content;
+    },
+    convert: function convert(wordid, algoritm) {
+      var vm = this;
+      axios({
+        method: 'get',
+        url: '/encode?wordid=' + wordid + '&algoritm=' + algoritm,
+        data: {
+          wordid: wordid,
+          algoritm: algoritm
+        }
+      }).then(function (response) {
+        if (response['data'] != false) {
+          vm.wordCollection[response['data']['wordid']][response['data']['algoritm']] = response['data']['wordhash'];
+        }
+      });
+    },
+    deleteHash: function deleteHash(wordid) {
+      if (wordid > 0) {
+        var decision = confirm('Are you sure? All hashes for this word will be deleted');
+        if (decision) {
+          var vm = this;
+          // vm.wordCollection[wordid]['sha256'] = '';
+          // console.log(vm.wordCollection[wordid]);
+          axios({
+            method: 'get',
+            url: '/deletehash?wordid=' + wordid,
+            data: {
+              wordid: wordid
+            }
+          });
+          algoritms.forEach(function callback(currentValue, index, array) {
+            vm.wordCollection[wordid][currentValue] = '';
+          });
+        }
+      } else {
+        alert('Select word, please');
+      }
+    },
+    addRow: function addRow(event) {
+      if (event) {
+        var table = document.getElementById('maintable');
+        var tr = document.createElement('tr');
+        var tds = '<td><select class="newword">';
+        tds += '<option value="0" disabled selected>Select word</option>';
+        for (var i in this.vocabulary) {
+          var disabled = '';
+          if (this.wordCollection[i] != undefined) {
+            disabled = 'disabled';
+          }
+          tds += '<option value = "' + i + '" ' + disabled + ' >' + this.vocabulary[i] + '</option>';
+        }
+        tds += '</select>';
+        tds += '</td>';
+        algoritms.forEach(function callback(currentValue, index, array) {
+          //vm.wordCollection[wordid][currentValue] = '';
+          tds += '<td><button onclick="convertNewLine(this,\'' + currentValue + '\')">Convert to ' + currentValue + '</button></td>';
+        });
+        tds += '<td><button onclick="deleteNewLine(this)">Delete hash for a word</button></td>';
+        tr.innerHTML = tds;
+        table.appendChild(tr);
+      }
+    }
+
+  }
 });
 
+/*function convertNewLine(buttonObject, algoritm){
+	var tr = buttonObject.parentElement.parentElement;
+	var select = tr.getElementsByTagName('select');
+	var wordid = select[0].value;
+	if(wordid > 0){
+		axios({
+		  method: 'get',
+	  	  url: '/encode?wordid=' + wordid + '&algoritm=' + algoritm,
+	  	  data: {
+	  	    wordid: wordid,
+	  	    algoritm: algoritm
+	  	  }
+	  	})
+	  	.then(function (response) {
+	      var td = buttonObject.parentElement.innerHTML = response['data']['wordhash'];
+	      select[0].disabled = true;
+	  	});
+	}else{
+		alert('Select word, please');
+	}
+}
+
+function deleteNewLine(buttonObject){
+  var tr = buttonObject.parentElement.parentElement;
+  var select = tr.getElementsByTagName('select');
+  var wordid = select[0].value;
+  if(wordid > 0){
+    var decision = confirm('Are you sure? All hashes for this word will be deleted');
+    if(decision){
+      axios({
+      method: 'get',
+        url: '/deletehash?wordid=' + wordid,
+        data: {
+          wordid: wordid
+        }
+      });
+      tr.remove();
+    }
+  }else{
+    alert('Select word, please');
+  }
+}
+*/
+// Edit word section
+var app4 = new Vue({
+  el: '#app4',
+  mounted: function mounted() {
+    var _this2 = this;
+
+    axios.get('/getwords').then(function (response) {
+      return [_this2.message = response.data, _this2.vocabulary = response.data['vocabulary']];
+    });
+  },
+
+  data: {
+    message: '',
+    vocabulary: []
+  },
+  methods: {
+    deleteword: function deleteword(wordid) {
+      if (wordid > 0) {
+        var decision = confirm('Are you sure? The word and all hashes for this word will be deleted');
+        if (decision) {
+          var vm = this;
+          axios({
+            method: 'get',
+            url: '/deleteword?wordid=' + wordid,
+            data: {
+              wordid: wordid
+            }
+          });
+          vm.vocabulary[wordid] = null;
+          /*  algoritms.forEach(function callback(currentValue, index, array) {
+              vm.wordCollection[wordid][currentValue] = '';
+            });*/
+        }
+      } else {
+        alert('Select word, please');
+      }
+    },
+    addInputRow: function addInputRow() {
+      var table = document.getElementById('maintable');
+      var tr = document.createElement('tr');
+      var tds = '<td>';
+      tds += '<input type="text" name="newword" placeholder="new word">';
+      tds += '</td>';
+      tds += '<td><button onclick="addNewword(this)">Save word</button></td>';
+      tr.innerHTML = tds;
+      table.appendChild(tr);
+    }
+  }
+});
+
+/*function addNewword(buttonObject) {
+  var tr = buttonObject.parentElement.parentElement;
+  var input = tr.getElementsByTagName('input');
+  var word = input[0].value;
+  if(word.length > 0){
+      axios({
+        method: 'get',
+        url: '/saveword?word=' + word,
+        data: {
+          wordid: word
+        }
+      })
+      .then(function (response) {
+        var td = buttonObject.parentElement.innerHTML = '<button onclick="deleteNewWord(this, ' + response['data']['id'] + ')">Delete a word</button>';
+        input[0].disabled = true;
+      });
+  }
+}
+
+function deleteNewWord(buttonObject, wordid){
+  var tr = buttonObject.parentElement.parentElement;
+  if(wordid > 0){
+    var decision = confirm('Are you sure?');
+    if(decision){
+      axios({
+      method: 'get',
+        url: '/deleteword?wordid=' + wordid,
+        data: {
+          wordid: wordid
+        }
+      });
+      tr.remove();
+    }
+  }else{
+    alert('Select word, please');
+  }
+}
+
+
+*/
+
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(12);
+window._ = __webpack_require__(13);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -1007,9 +1295,9 @@ window._ = __webpack_require__(12);
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(14);
+  window.$ = window.jQuery = __webpack_require__(15);
 
-  __webpack_require__(15);
+  __webpack_require__(16);
 } catch (e) {}
 
 /**
@@ -1018,7 +1306,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(16);
+window.axios = __webpack_require__(17);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -1052,7 +1340,7 @@ if (token) {
 // });
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -18141,10 +18429,10 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(13)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(14)(module)))
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -18172,7 +18460,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -28432,7 +28720,7 @@ return jQuery;
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 /*!
@@ -30815,13 +31103,13 @@ if (typeof jQuery === 'undefined') {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(17);
+module.exports = __webpack_require__(18);
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30829,7 +31117,7 @@ module.exports = __webpack_require__(17);
 
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(3);
-var Axios = __webpack_require__(19);
+var Axios = __webpack_require__(20);
 var defaults = __webpack_require__(2);
 
 /**
@@ -30864,14 +31152,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(8);
-axios.CancelToken = __webpack_require__(33);
+axios.CancelToken = __webpack_require__(34);
 axios.isCancel = __webpack_require__(7);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(34);
+axios.spread = __webpack_require__(35);
 
 module.exports = axios;
 
@@ -30880,7 +31168,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 /*!
@@ -30907,7 +31195,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30915,8 +31203,8 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(2);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(28);
-var dispatchRequest = __webpack_require__(29);
+var InterceptorManager = __webpack_require__(29);
+var dispatchRequest = __webpack_require__(30);
 
 /**
  * Create a new instance of Axios
@@ -30993,7 +31281,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31012,7 +31300,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31045,7 +31333,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31073,7 +31361,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31148,7 +31436,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31208,7 +31496,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31283,7 +31571,7 @@ module.exports = (
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31326,7 +31614,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31386,7 +31674,7 @@ module.exports = (
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31445,18 +31733,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(30);
+var transformData = __webpack_require__(31);
 var isCancel = __webpack_require__(7);
 var defaults = __webpack_require__(2);
-var isAbsoluteURL = __webpack_require__(31);
-var combineURLs = __webpack_require__(32);
+var isAbsoluteURL = __webpack_require__(32);
+var combineURLs = __webpack_require__(33);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -31538,7 +31826,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31565,7 +31853,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31586,7 +31874,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31607,7 +31895,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31671,7 +31959,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31705,7 +31993,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42401,10 +42689,10 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(36).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(37).setImmediate))
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = Function.prototype.apply;
@@ -42457,13 +42745,13 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(37);
+__webpack_require__(38);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -42656,13 +42944,12 @@ exports.clearImmediate = clearImmediate;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(4)))
 
 /***/ }),
-/* 38 */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed: Error: \n\nVue packages version mismatch:\n\n- vue@2.5.8\n- vue-template-compiler@2.5.3\n\nThis may cause things to work incorrectly. Make sure to use the same version for both.\nIf you are using vue-loader@>=10.0, simply update vue-template-compiler.\nIf you are using vue-loader@<10.0 or vueify, re-installing vue-loader/vueify should bump vue-template-compiler to the latest.\n\n    at Object.<anonymous> (c:\\OpenServer\\domains\\vocabulary\\node_modules\\vue-template-compiler\\index.js:8:9)\n    at Module._compile (module.js:635:30)\n    at Object.Module._extensions..js (module.js:646:10)\n    at Module.load (module.js:554:32)\n    at tryModuleLoad (module.js:497:12)\n    at Function.Module._load (module.js:489:3)\n    at Module.require (module.js:579:17)\n    at require (internal/module.js:11:18)\n    at Object.<anonymous> (c:\\OpenServer\\domains\\vocabulary\\node_modules\\vue-loader\\lib\\parser.js:1:80)\n    at Module._compile (module.js:635:30)\n    at Object.Module._extensions..js (module.js:646:10)\n    at Module.load (module.js:554:32)\n    at tryModuleLoad (module.js:497:12)\n    at Function.Module._load (module.js:489:3)\n    at Module.require (module.js:579:17)\n    at require (internal/module.js:11:18)\n    at Object.<anonymous> (c:\\OpenServer\\domains\\vocabulary\\node_modules\\vue-loader\\lib\\loader.js:3:15)\n    at Module._compile (module.js:635:30)\n    at Object.Module._extensions..js (module.js:646:10)\n    at Module.load (module.js:554:32)\n    at tryModuleLoad (module.js:497:12)\n    at Function.Module._load (module.js:489:3)\n    at Module.require (module.js:579:17)\n    at require (internal/module.js:11:18)\n    at Object.<anonymous> (c:\\OpenServer\\domains\\vocabulary\\node_modules\\vue-loader\\index.js:1:80)\n    at Module._compile (module.js:635:30)\n    at Object.Module._extensions..js (module.js:646:10)\n    at Module.load (module.js:554:32)\n    at tryModuleLoad (module.js:497:12)\n    at Function.Module._load (module.js:489:3)");
-
-/***/ }),
-/* 39 */
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
