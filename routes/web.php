@@ -27,9 +27,5 @@ Route::get('editword', 'WordsController@index')->middleware('auth');
 Route::get('getwords', 'WordsController@show')->middleware('auth');
 Route::get('saveword', 'WordsController@create')->middleware('auth');
 Route::get('deleteword', 'WordsController@destroy')->middleware('auth');
-//Route::post('hashjson', 'HashWordsController@hashjson');
-Route::post('hashjson', function()
-{
-	return $request();
-});
+Route::post('hashjson', 'HashWordsController@hashjson');
 Route::get('test', 'HashWordsController@test');
