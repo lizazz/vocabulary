@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Http\Controllers\XMLReport;
 
 class GenerateXML extends Command
 {
@@ -37,9 +38,11 @@ class GenerateXML extends Command
      */
     public function handle()
     {
+        $XMLReportObject = new XMLReport();
+        $xml = $XMLReportObject->getXML();
         $structure = public_path('xml');
         $fp = fopen($structure . DIRECTORY_SEPARATOR .'SyncForJira.txt', "a+");      
-        $debugstr = 'hello';
+        $debugstr = $xml;
         fwrite($fp, $debugstr." ");
     }
 }

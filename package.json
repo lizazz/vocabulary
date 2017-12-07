@@ -19,6 +19,7 @@
         "vue": "^2.5.8"
     },
     "dependencies": {
+        "task-model": "^1.1.1",
         "vue-template-compiler": "^2.5.8"
     }
 }

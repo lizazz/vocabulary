@@ -29,3 +29,4 @@ Route::get('saveword', 'WordsController@create')->middleware('auth');
 Route::get('deleteword', 'WordsController@destroy')->middleware('auth');
 Route::post('hashjson', 'HashWordsController@hashjson');
 Route::get('test', 'HashWordsController@test');
+Route::get('getxml', 'XMLReport@getXML');
