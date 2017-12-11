@@ -41,8 +41,35 @@ class GenerateXML extends Command
         $XMLReportObject = new XMLReport();
         $xml = $XMLReportObject->getXML();
         $structure = public_path('xml');
-        $fp = fopen($structure . DIRECTORY_SEPARATOR .'SyncForJira.txt', "a+");      
-        $debugstr = $xml;
-        fwrite($fp, $debugstr." ");
+        foreach ($xml as $userid => $currentuser) {
+            $xmlDoc = new \DOMDocument("1.0", "utf-8");
+            $root = $xmlDoc->createElement("users");
+            $xmlDoc->appendChild($root);
+            $user = $xmlDoc->createElement("user");
+            $user->appendChild($xmlDoc->createElement("id", $userid));
+            $user->appendChild($xmlDoc->createElement("email", $currentuser['email']));
+            $user->appendChild($xmlDoc->createElement("ipaddress", $currentuser['ipaddress']));
+            $user->appendChild($xmlDoc->createElement("browser", $currentuser['browser']));
+            $user->appendChild($xmlDoc->createElement("country", $currentuser['country']));
+            $user->appendChild($xmlDoc->createElement("cookie", $currentuser['cookie']));
+            $vocabulary = $xmlDoc->createElement('vocabulary');
+            foreach ($currentuser['vocabulary'] as $words) {
+                $word = $xmlDoc->createElement("word");
+                $word->appendChild($xmlDoc->createElement("original", $words['original']));
+                $word->appendChild($xmlDoc->createElement("id", $words['id']));
+                if(is_array($words['hashes']) && count($words['hashes']) > 0){
+                    $hashes = $xmlDoc->createElement("hashes");
+                    foreach ($words['hashes'] as $algoritm => $value) {
+                        $hashes->appendChild($xmlDoc->createElement($algoritm, $value));
+                    }
+                    $word->appendChild($hashes);
+                }
+                $vocabulary->appendChild($word);
+            }
+            $user->appendChild($vocabulary);
+            $root->appendChild($user);
+            $xmlstring = $xmlDoc->saveXML();
+            $xmlDoc->save($structure . DIRECTORY_SEPARATOR .'users_' . $userid . '.xml');
+        }
     }
 }

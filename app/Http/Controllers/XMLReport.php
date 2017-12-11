@@ -14,25 +14,35 @@ class XMLReport extends Controller
     public function getXML(){
 
     	$users = User::All();
-    	$words = Vocabulary::All();
-    	//$hashes = HashTable::All();
+    	
     	$userData = [];
-    	$HashWordsObject = new HashWordsController();
     	foreach ($users as $user) {
     		$vocabulary = $this->formVocabulary($user['id']);
-    		$userData[$user['email']] = $vocabulary;
+            $userData[$user['id']]['email'] = $user['email'];
+    		$userData[$user['id']]['vocabulary'] = $vocabulary;
+            $userExtraInformation = UserExtraInformation::where('userid', $user['id'])->first();
+            $userData[$user['id']]['ipaddress'] = $userExtraInformation->ipaddress;
+            $userData[$user['id']]['browser'] = $userExtraInformation->browser;
+            $userData[$user['id']]['country'] = $userExtraInformation->country;
+            $userData[$user['id']]['cookie'] = $userExtraInformation->cookie;
     	}
-    	dump($userData);
+
     	return $userData;
     }
 
     public function formVocabulary($userid){
-    	$rowArray = $HashWordsObject->show($user['id']);
-    	$words = [];
-    	if(is_array($rowArray['wordCollection']) && count($rowArray['wordCollection']) > 0){
-    		foreach ($variable as $key => $value) {
-    			# code...
-    		}
-    	}
+        $vocabulary = [];
+        $HashWordsObject = new HashWordsController();
+        $hashwords = $HashWordsObject->show($userid);
+        $vocabulary = $hashwords['vocabulary'];
+        foreach ($hashwords['vocabulary'] as $wordid => $word) {
+            $vocabulary[$wordid] = ['original' => $word, 'id' => $wordid];
+            if(isset($hashwords['wordCollection'][$wordid])){
+                $vocabulary[$wordid]['hashes'] = $hashwords['wordCollection'][$wordid];
+            }else{
+                $vocabulary[$wordid]['hashes'] = ['crc32' => '', 'md5' => '', "sha1" => '', "sha256" => '', 'base64' =>''];
+            }
+        }
+        return $vocabulary;
     }
 }
