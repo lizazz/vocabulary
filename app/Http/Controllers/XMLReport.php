@@ -11,6 +11,10 @@ use App\Http\Controllers\HashWordsController;
 
 class XMLReport extends Controller
 {
+    /**
+     * form user data for export to xml
+     * @return array user data
+     */
     public function getXML(){
 
     	$users = User::All();
@@ -30,6 +34,11 @@ class XMLReport extends Controller
     	return $userData;
     }
 
+    /**
+     * form words and their hashes for export to xml
+     * @param  int $userid
+     * @return array words and hashes
+     */
     public function formVocabulary($userid){
         $vocabulary = [];
         $HashWordsObject = new HashWordsController();

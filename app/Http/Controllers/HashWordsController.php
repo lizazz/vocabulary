@@ -14,20 +14,18 @@ use App\User;
 class HashWordsController extends Controller
 {
     /**
-     * Display all words and hash for selected.
-     *
-     * @return \Illuminate\Http\Response
+     * show template for words hashes
+     * @return [type] [description]
      */
     public function index()
     {
        return view('words');
     }
 
-     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+    /**
+     * show word and it's hashes for current user
+     * @param  integer $userid
+     * @return array all words and hashes for it
      */
     public function show($userid = 0)
     {
@@ -68,6 +66,10 @@ class HashWordsController extends Controller
         return ['vocabulary' => $vocabulary, 'wordCollection' => $wordCollection];
     }
 
+    /**
+     * search words without hashes
+     * @return array words
+     */
     public function nouserwords(){
         $userid = Auth::id();
         $hashwords = HashTable::where('userid', $userid)->get();
@@ -85,6 +87,10 @@ class HashWordsController extends Controller
         return $vocabulary;
     }
 
+    /**
+     * encode word with the given algorithm 
+     * @return string word's hash
+     */
     public function encode(){
         if(!isset($_GET) || !isset($_GET['wordid']) || !isset($_GET['algoritm']) || $_GET['wordid'] <= 0 || $_GET['algoritm'] == ''){
            return 'false';
@@ -132,6 +138,10 @@ class HashWordsController extends Controller
         return 'false';
     }
 
+    /**
+     * Delete words hash
+     * @return bool true if ok, false if not
+     */
     public function deleteHash(){
         if(!isset($_GET) || !isset($_GET['wordid']) || $_GET['wordid'] <= 0){
            return 'false';
@@ -141,6 +151,11 @@ class HashWordsController extends Controller
         return 'true';
     }
 
+    /**
+     * return user hashes in json format
+     * @param  Request $request user's login and pass 
+     * @return string json user's hashes
+     */
     public function hashjson(Request $request){
         $login = $request->input('login');
         $pass = $request->input('password');
@@ -174,6 +189,10 @@ class HashWordsController extends Controller
         return json_encode($responce);
     }
 
+    /**
+     * function for testing REST API request
+     * @return string json all hashes for current user
+     */
     public function test(){
         $_dwkUri = "http://vocabulary/hashjson";
         $ch = curl_init($_dwkUri);

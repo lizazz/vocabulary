@@ -8,6 +8,11 @@ use GeoIP;
 
 class UserExtraInformationController extends Controller
 {
+    /**
+     * Save extra information of user
+     * @param  int $userid
+     * @param  array $data from request
+     */
     function saveExtraInformation($userid, $data){
     	//$country = $this->strana( '91.193.173.11');
     	$GeoIPObject = GeoIP::getLocation($data['ipaddress']/*'91.193.173.11'*/);
