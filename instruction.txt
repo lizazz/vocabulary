@@ -1,0 +1,13 @@
+for testing vocabulary:
+1) clone the project
+2) create the laravel project with composer
+3) when laravel project is ready - register and login as new user
+4) when you login, load the main laravel's page. It will have 2 links - 'Hash words' and 'Edit words'
+5) On 'Edit words' page create one or few new words
+6) Go to the 'Hash words' page and create one or few hashes for just created words
+7) create POST Rest API request with url YOUR_LARAVEL_PROJECT_URL//hashjson to get user's hash words in json format. Request should has array ['login' => 'REGISTRED_USER_EMAIL', 'password' => 'REGISTRED_USER_PASSWORD'];
+8) You may get xml files with information about user, their saved hashes, origin words and similar words from database. User information should include ip, browser, cookie and country of the user. Open bash, go to  the laravel's root directory and do the command
+
+php artisan schedule:run
+
+for each user will create xml file in public/xml directory
